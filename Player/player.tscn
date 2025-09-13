@@ -1,0 +1,514 @@
+[gd_scene load_steps=35 format=3 uid="uid://vaaqqb32s0a5"]
+
+[ext_resource type="Script" uid="uid://crbsww811jfrh" path="res://Player/player.gd" id="1_fhl08"]
+[ext_resource type="Script" uid="uid://ce3ujg3jc5hq5" path="res://Player/States/CharacterStateMachine.gd" id="2_4ntmi"]
+[ext_resource type="Shader" uid="uid://daxbgjopngm18" path="res://Assets/shaders/blur.gdshader" id="2_btcbx"]
+[ext_resource type="Texture2D" uid="uid://b3otif6s871k5" path="res://Player/assets/PLAYER.png" id="3_apopc"]
+[ext_resource type="Shader" uid="uid://bmc52rt3n701p" path="res://Assets/shaders/run_effect.gdshader" id="4_gwnis"]
+[ext_resource type="Script" uid="uid://tnjinlg3uyot" path="res://Player/States/idleState.gd" id="5_k53q1"]
+[ext_resource type="Script" uid="uid://bgoennac5rkbj" path="res://Player/States/RunState.gd" id="7_vtle1"]
+[ext_resource type="Script" uid="uid://dexnao51un0r3" path="res://Player/States/crouchIdle.gd" id="8_od3ui"]
+[ext_resource type="Script" uid="uid://du7baw8cs46wl" path="res://Player/States/jumpState.gd" id="9_00tjw"]
+[ext_resource type="Script" uid="uid://b6b2y1s8xg4nl" path="res://Player/States/fallState.gd" id="10_x3vf3"]
+[ext_resource type="Script" uid="uid://h035o7rwnqwx" path="res://Player/States/crouchJumpState.gd" id="11_5htga"]
+[ext_resource type="Script" uid="uid://vc7nnjdv5b30" path="res://Player/States/State.gd" id="11_apopc"]
+[ext_resource type="Script" uid="uid://hfdvh2gnkwls" path="res://Player/States/fastFallState.gd" id="11_dkpta"]
+[ext_resource type="Script" uid="uid://c1c3wq5k8as1i" path="res://Player/States/slideJumpState.gd" id="12_p5o4e"]
+[ext_resource type="Script" uid="uid://bitlgawtlookb" path="res://Player/States/crouchIdleJumpState.gd" id="13_gu6f8"]
+[ext_resource type="Script" uid="uid://dsdn13pyxhq74" path="res://Player/States/crouchDownState.gd" id="15_lfmf2"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4ntmi"]
+radius = 50.0
+height = 140.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k53q1"]
+resource_local_to_scene = true
+shader = ExtResource("4_gwnis")
+shader_parameter/cloth_color = Color(0.670588, 0.0745098, 0.878431, 1)
+shader_parameter/max_wave_offset = 3.0
+shader_parameter/wave_frequency = 5.516
+shader_parameter/wave_speed = 9.73
+shader_parameter/flutter_amount = 1.0
+shader_parameter/speed_influence = 5.8
+shader_parameter/global_opacity = 1.0
+shader_parameter/invert_fade = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gwnis"]
+shader = ExtResource("2_btcbx")
+shader_parameter/fill_color = Color(0.16, 0.1456, 0.15472, 0.298039)
+shader_parameter/blur_strength = 27.657
+
+[sub_resource type="Animation" id="Animation_btcbx"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D/Color:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.671385, 0.0728322, 0.877376, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D/shading:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-77, -155)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D/shading:material:shader_parameter/fill_color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.16, 0.1456, 0.15472, 0.298039)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprite2D:skew")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("effects/runEffect:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Sprite2D:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_k53q1"]
+resource_name = "end_run"
+length = 0.6337
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.633333),
+"transitions": PackedFloat32Array(2.21914, 1),
+"update": 0,
+"values": [0.282743, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("effects/runEffect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_4ntmi"]
+resource_name = "idle"
+length = 1.5
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1.14, -0.25, 0, 0.25, 0, 0.86, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.0333333, 0.4, 1.03333, 1.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0.86, -0.25, 0, 0.25, 0, 1.14, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.6, 0.866667, 1.43333)
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D/Color:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.7, 1.5),
+"transitions": PackedFloat32Array(1, 2.63902, 1),
+"update": 0,
+"values": [Color(0.671385, 0.0728322, 0.877376, 1), Color(0.729276, 0.0132483, 0.777316, 1), Color(0.671385, 0.0728322, 0.877376, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D/shading:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.7, 1.5),
+"transitions": PackedFloat32Array(1, 2.73208, 1),
+"update": 0,
+"values": [Vector2(-132.017, -100), Vector2(-140.197, -46.3144), Vector2(-132.017, -100)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D/shading:material:shader_parameter/fill_color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.7, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.16, 0.1456, 0.15472, 0.298039), Color(0.16, 0.1456, 0.15472, 0.560784), Color(0.16, 0.1456, 0.15472, 0.298039)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprite2D:skew")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.2, 1.2, 1.49309),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.0349066, 0.0349066, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_od3ui"]
+resource_name = "in_scrouth"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1332, 0.4),
+"transitions": PackedFloat32Array(1, 0.15932, 2.21914),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.7, 1.3), Vector2(1.5, 0.5)]
+}
+
+[sub_resource type="Animation" id="Animation_gwnis"]
+resource_name = "ready_run"
+length = 0.3651
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0837245, 0.366667),
+"transitions": PackedFloat32Array(1, 2.21914, 2.21914),
+"update": 0,
+"values": [0.0, -0.141372, 0.282743]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("effects/runEffect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.166667, 0.333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_fhl08"]
+resource_name = "run"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(2.21914, 1, 2.21914),
+"update": 0,
+"values": [0.282743, 0.20944, 0.282743]
+}
+
+[sub_resource type="Animation" id="Animation_vtle1"]
+resource_name = "scrouth"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1.5, 0.5), Vector2(1.5, 0.5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_btcbx"]
+_data = {
+&"RESET": SubResource("Animation_btcbx"),
+&"end_run": SubResource("Animation_k53q1"),
+&"idle": SubResource("Animation_4ntmi"),
+&"in_scrouth": SubResource("Animation_od3ui"),
+&"ready_run": SubResource("Animation_gwnis"),
+&"run": SubResource("Animation_fhl08"),
+&"scrouth": SubResource("Animation_vtle1")
+}
+
+[sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_gwnis"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_k53q1"]
+sync = true
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fhl08"]
+animation = &"end_run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gwnis"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vtle1"]
+animation = &"run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_od3ui"]
+animation = &"ready_run"
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_k53q1"]
+graph_offset = Vector2(34.7461, 76.9025)
+nodes/Add2/node = SubResource("AnimationNodeAdd2_gwnis")
+nodes/Add2/position = Vector2(1160, 860)
+nodes/Blend2/node = SubResource("AnimationNodeBlend2_k53q1")
+nodes/Blend2/position = Vector2(1620, 380)
+"nodes/anim end run/node" = SubResource("AnimationNodeAnimation_fhl08")
+"nodes/anim end run/position" = Vector2(620, 860)
+"nodes/anim idle/node" = SubResource("AnimationNodeAnimation_gwnis")
+"nodes/anim idle/position" = Vector2(740, 440)
+"nodes/anim run/node" = SubResource("AnimationNodeAnimation_vtle1")
+"nodes/anim run/position" = Vector2(420, 800)
+nodes/animreadyrun/node = SubResource("AnimationNodeAnimation_od3ui")
+nodes/animreadyrun/position = Vector2(140, 700)
+nodes/output/position = Vector2(2040, 520)
+node_connections = [&"Add2", 0, &"animreadyrun", &"Add2", 1, &"anim run", &"Blend2", 0, &"anim idle", &"Blend2", 1, &"Add2", &"output", 0, &"Blend2"]
+
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(19, 0)
+script = ExtResource("1_fhl08")
+move_speed = 900.0
+acceleration = 2500.0
+friction = 2500.0
+jump_velocity = -600.0
+max_jumps = 2
+max_fall_speed = 1500.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CapsuleShape2D_4ntmi")
+
+[node name="effects" type="Node2D" parent="."]
+visible = false
+
+[node name="runEffect" type="ColorRect" parent="effects"]
+visible = false
+material = SubResource("ShaderMaterial_k53q1")
+offset_left = -97.0
+offset_top = -66.0
+offset_right = 36.0
+offset_bottom = 70.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+clip_children = 2
+position = Vector2(0, 70)
+texture = ExtResource("3_apopc")
+offset = Vector2(0, -70)
+
+[node name="Color" type="ColorRect" parent="Sprite2D"]
+offset_left = -77.0
+offset_top = -155.0
+offset_right = 85.0
+offset_bottom = 10.0
+color = Color(0.671385, 0.0728322, 0.877376, 1)
+
+[node name="shading" type="ColorRect" parent="Sprite2D"]
+visible = false
+material = SubResource("ShaderMaterial_gwnis")
+offset_left = -77.0
+offset_top = -155.0
+offset_right = 235.0
+offset_bottom = 279.0
+
+[node name="camera" type="Camera2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_btcbx")
+}
+autoplay = "idle"
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeBlendTree_k53q1")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Add2/add_amount = 0.0
+parameters/Blend2/blend_amount = 0.0
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("character")]
+script = ExtResource("2_4ntmi")
+character = NodePath("..")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("5_k53q1")
+can_move = null
+has_gravity = null
+animation_speed = null
+
+[node name="Run" type="Node" parent="StateMachine"]
+script = ExtResource("7_vtle1")
+run_animation_speed = null
+can_move = null
+has_gravity = null
+animation_speed = null
+
+[node name="Crouch" type="Node" parent="StateMachine"]
+script = ExtResource("8_od3ui")
+crouch_speed_multiplier = 0.05
+slide_friction = 600.0
+min_slide_speed = 90.0
+can_move = null
+has_gravity = null
+animation_speed = null
+
+[node name="Jump" type="Node" parent="StateMachine"]
+script = ExtResource("9_00tjw")
+air_control = 0.7
+crouchjump = -1700.0
+
+[node name="Fall" type="Node" parent="StateMachine"]
+script = ExtResource("10_x3vf3")
+fall_air_control = 0.7
+fall_gravity_multiplier = 2.5
+can_move = null
+has_gravity = null
+animation_speed = null
+
+[node name="FastFall" type="Node" parent="StateMachine"]
+script = ExtResource("11_dkpta")
+fall_air_control = null
+fall_gravity_multiplier = 5.0
+max_fast_fall_speed = null
+can_move = null
+has_gravity = null
+animation_speed = null
+
+[node name="CrouchJump" type="Node" parent="StateMachine"]
+script = ExtResource("11_5htga")
+crouch_jump_velocity = null
+forward_momentum_boost = null
+crouch_jump_air_control = null
+variable_jump_time = null
+can_move = null
+has_gravity = null
+animation_speed = null
+
+[node name="SlideJump" type="Node" parent="StateMachine"]
+script = ExtResource("12_p5o4e")
+slide_jump_velocity = -350.0
+forward_momentum_boost = 350.0
+backward_momentum_penalty = null
+slide_jump_air_control = null
+variable_jump_time = null
+can_move = null
+has_gravity = null
+animation_speed = null
+
+[node name="CrouchIdleJump" type="Node" parent="StateMachine"]
+script = ExtResource("13_gu6f8")
+crouch_idle_jump_velocity = -400.0
+crouch_idle_air_control = 0.4
+variable_jump_time = null
+can_move = null
+has_gravity = null
+animation_speed = null
+
+[node name="CrouchDown" type="Node" parent="StateMachine"]
+script = ExtResource("15_lfmf2")
+fall_air_control = null
+fall_gravity_multiplier = null
+max_fast_fall_speed = null
+can_move = null
+has_gravity = null
+animation_speed = null
+
+[node name="State" type="Node" parent="."]
+script = ExtResource("11_apopc")
+can_move = false
+has_gravity = false
+metadata/_custom_type_script = "uid://vc7nnjdv5b30"
