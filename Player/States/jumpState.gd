@@ -23,7 +23,7 @@ func on_enter() -> void:
 	print("Entering Jump State")
 	
 	# Execute the jump
-	if get_previous_state() == "CrouchDown":
+	if get_previous_state() == "CrashDown":
 		character.jump(crouchjump)
 	else:
 		character.jump()

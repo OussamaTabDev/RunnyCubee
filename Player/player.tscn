@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://vaaqqb32s0a5"]
+[gd_scene load_steps=36 format=3 uid="uid://vaaqqb32s0a5"]
 
 [ext_resource type="Script" uid="uid://crbsww811jfrh" path="res://Player/player.gd" id="1_fhl08"]
 [ext_resource type="Script" uid="uid://ce3ujg3jc5hq5" path="res://Player/States/CharacterStateMachine.gd" id="2_4ntmi"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://c1c3wq5k8as1i" path="res://Player/States/slideJumpState.gd" id="12_p5o4e"]
 [ext_resource type="Script" uid="uid://bitlgawtlookb" path="res://Player/States/crouchIdleJumpState.gd" id="13_gu6f8"]
 [ext_resource type="Script" uid="uid://dsdn13pyxhq74" path="res://Player/States/crouchDownState.gd" id="15_lfmf2"]
+[ext_resource type="Script" uid="uid://dydbqkexal75n" path="res://Player/States/crashDownState.gd" id="16_pisgm"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4ntmi"]
 radius = 50.0
@@ -361,14 +362,14 @@ nodes/output/position = Vector2(2040, 520)
 node_connections = [&"Add2", 0, &"animreadyrun", &"Add2", 1, &"anim run", &"Blend2", 0, &"anim idle", &"Blend2", 1, &"Add2", &"output", 0, &"Blend2"]
 
 [node name="Player" type="CharacterBody2D"]
-position = Vector2(19, 0)
+position = Vector2(-1, 0)
 script = ExtResource("1_fhl08")
 move_speed = 900.0
 acceleration = 2500.0
 friction = 2500.0
-jump_velocity = -600.0
-max_jumps = 2
+jump_velocity = -800.0
 max_fall_speed = 1500.0
+crash_dist = 220.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -426,9 +427,6 @@ character = NodePath("..")
 
 [node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource("5_k53q1")
-can_move = null
-has_gravity = null
-animation_speed = null
 
 [node name="Run" type="Node" parent="StateMachine"]
 script = ExtResource("7_vtle1")
@@ -449,24 +447,16 @@ animation_speed = null
 [node name="Jump" type="Node" parent="StateMachine"]
 script = ExtResource("9_00tjw")
 air_control = 0.7
-crouchjump = -1700.0
+crouchjump = -1500.0
 
 [node name="Fall" type="Node" parent="StateMachine"]
 script = ExtResource("10_x3vf3")
 fall_air_control = 0.7
 fall_gravity_multiplier = 2.5
-can_move = null
-has_gravity = null
-animation_speed = null
 
 [node name="FastFall" type="Node" parent="StateMachine"]
 script = ExtResource("11_dkpta")
-fall_air_control = null
 fall_gravity_multiplier = 5.0
-max_fast_fall_speed = null
-can_move = null
-has_gravity = null
-animation_speed = null
 
 [node name="CrouchJump" type="Node" parent="StateMachine"]
 script = ExtResource("11_5htga")
@@ -500,15 +490,22 @@ animation_speed = null
 
 [node name="CrouchDown" type="Node" parent="StateMachine"]
 script = ExtResource("15_lfmf2")
-fall_air_control = null
-fall_gravity_multiplier = null
-max_fast_fall_speed = null
-can_move = null
-has_gravity = null
-animation_speed = null
+fall_gravity_multiplier = 9.0
+max_fast_fall_speed = 6000.0
+max_crouch_time = 2.0
+
+[node name="CrashDown" type="Node" parent="StateMachine"]
+script = ExtResource("16_pisgm")
+transition_time = 1.5
 
 [node name="State" type="Node" parent="."]
 script = ExtResource("11_apopc")
 can_move = false
 has_gravity = false
 metadata/_custom_type_script = "uid://vc7nnjdv5b30"
+
+[node name="Raycasts" type="Node2D" parent="."]
+
+[node name="GroundCounter" type="RayCast2D" parent="Raycasts"]
+visible = false
+target_position = Vector2(0, 33)

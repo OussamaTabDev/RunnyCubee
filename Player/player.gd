@@ -22,18 +22,32 @@ class_name Player
 @export var gravity_scale: float = 1.0
 @export var max_fall_speed: float = 1000.0
 
+
+## Debug configuration
+@export_group("Crouch")
+@export var crash_dist: float = 120
+
+## Debug configuration
+@export_group("Debugs")
+@export var enable_debug: bool = false
+# @export var max_fall_speed: float = 1000.0
+
 ## State machine reference
 @onready var state_machine: StateMachine = $StateMachine
-
+@onready var ground_ray: RayCast2D = $Raycasts/GroundCounter
 ## Input tracking
 var input_direction: float = 0.0
 var jump_count: int = 0
 var was_on_floor: bool = false
+var can_crashDown: bool = true
 
 func _ready() -> void:
 	# Ensure the state machine has a reference to this player
 	if state_machine:
 		state_machine.character = self
+	
+	if enable_debug:
+		debug_print_info()
 
 func _physics_process(delta: float) -> void:
 	# Update input
@@ -44,6 +58,10 @@ func _physics_process(delta: float) -> void:
 	
 	# Move the character (velocity is set by states)
 	move_and_slide()
+	
+	if enable_debug:
+		print("ground above :" , get_ground_distance())
+	
 
 ## Handles input detection and caching
 func _handle_input() -> void:
@@ -125,6 +143,30 @@ func apply_gravity(delta: float, gravity_multiplier: float = 1.0) -> void:
 		velocity.y += gravity * gravity_scale * gravity_multiplier * delta
 		velocity.y = min(velocity.y, max_fall_speed)
 
+
+
+
+func get_ground_distance(max_depth: float = 1000.0) -> float:
+	var space_state = get_world_2d().direct_space_state
+	var initial_value = 0.0
+	
+		
+	# Create ray parameters
+	var query = PhysicsRayQueryParameters2D.create(global_position, global_position + Vector2(0, max_depth))
+	query.exclude = [self]  # ignore the player itself
+	
+	var result = space_state.intersect_ray(query)
+
+	
+
+	if result:
+		if is_on_floor():
+			initial_value = global_position.distance_to(result.position)
+		return global_position.distance_to(result.position) - initial_value
+	return INF
+
+
+
 ## Debug function to print player state
 func debug_print_info() -> void:
 	print("=== Player Debug ===")
@@ -133,5 +175,6 @@ func debug_print_info() -> void:
 	print("On Floor: ", is_on_floor())
 	print("Jump Count: ", jump_count)
 	print("Input Direction: ", input_direction)
+	print("ground above :" , get_ground_distance())
 	if state_machine:
 		state_machine.debug_print_state_info()

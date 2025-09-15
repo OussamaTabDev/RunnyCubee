@@ -10,15 +10,21 @@ class_name CrouchDownState
 ## Gravity multiplier for faster falling
 @export var fall_gravity_multiplier: float = 5.0
 @export var max_fast_fall_speed: float = 3000
+@export var max_crouch_time: float = 3.0
 
 var default_max_fall_speed 
+var time = 0.0
 func _ready() -> void:
 	state_name = "CrouchDown"
-	can_move = true
+	
+	can_move = false
 
 func on_enter() -> void:
+	time = 0.0
+	character.velocity.x = 0.0
 	default_max_fall_speed = character.max_fall_speed 
 	character.max_fall_speed = max_fast_fall_speed
+	character.can_crashDown = false
 	print("Entering Fall State")
 
 func on_exit() -> void:
@@ -27,8 +33,8 @@ func on_exit() -> void:
 
 func state_physics_process(delta: float) -> void:
 	# Apply gravity (slightly stronger while falling)
+	time += delta
 	character.apply_gravity(delta, fall_gravity_multiplier)
-	
 	
 	# Handle horizontal movement with air control
 	var input_dir = character.get_input_direction()
@@ -50,16 +56,13 @@ func _check_transitions() -> void:
 	# check if the player release the down key 
 	# if not character.is_down_pressed():
 	# 	transition_to("Fall")
-	
+	if time > max_crouch_time:
+		character.velocity.y /= 3
+		transition_to("Fall")
 	# Check if we landed
 	if character.is_on_floor():
 		character.reset_jumps()
-		
-		# Determine next state based on input and velocity
-		if abs(character.get_input_direction()) > 0.1:
-			transition_to("Run")
-		else:
-			transition_to("Idle")
+		transition_to("CrashDown")
 		return
 	
 	# Check for coyote time jump

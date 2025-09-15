@@ -166,6 +166,10 @@ func _handle_jump_buffer() -> void:
 		if current_state and current_state.has_method("handle_buffered_jump"):
 			current_state.handle_buffered_jump()
 
+func can_CrouchDown():
+	if character.get_ground_distance() > character.crash_dist and character.can_crashDown:
+		return true
+	return false
 func is_on_floor_buffered():
 	return coyote_timer < COYOTE_TIME
 ## Debug function to print current state info

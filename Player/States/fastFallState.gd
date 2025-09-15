@@ -51,7 +51,7 @@ func _check_transitions() -> void:
 	if not character.is_down_pressed():
 		transition_to("Fall")
 
-	if character.is_crouch_pressed():
+	if character.is_crouch_pressed() and state_machine.can_CrouchDown():
 		transition_to("CrouchDown")
 
 	# Check if we landed

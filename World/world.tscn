@@ -210,4 +210,3 @@ tile_set = SubResource("TileSet_k8do8")
 
 [node name="Player" parent="." instance=ExtResource("2_j8job")]
 position = Vector2(-182, -2840)
-jump_velocity = -600.0
