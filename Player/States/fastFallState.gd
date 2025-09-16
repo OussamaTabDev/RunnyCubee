@@ -1,5 +1,5 @@
-# FastFallState.gd
-# Player fall state - handles falling fast mechanics, air control, and coyote time
+# FallState.gd
+# Player fall state - handles falling mechanics, air control, and coyote time
 # This should be attached to a child node of StateMachine named "Fall"
 
 extends State
@@ -8,27 +8,22 @@ class_name FastFallState
 ## Air control multiplier while falling
 @export var fall_air_control: float = 0.3
 ## Gravity multiplier for faster falling
-@export var fall_gravity_multiplier: float = 3.5
-@export var max_fast_fall_speed: float = 2000
+@export var fall_gravity_multiplier: float = 4.0
 
-var default_max_fall_speed 
+#@export var fall_max_speed_multiplier: float = 0.8
 func _ready() -> void:
 	state_name = "FastFall"
 	can_move = true
 
 func on_enter() -> void:
-	default_max_fall_speed = character.max_fall_speed 
-	character.max_fall_speed = max_fast_fall_speed
 	print("Entering Fall State")
 
 func on_exit() -> void:
-	character.max_fall_speed = default_max_fall_speed
 	print("Exiting Fall State")
 
 func state_physics_process(delta: float) -> void:
 	# Apply gravity (slightly stronger while falling)
 	character.apply_gravity(delta, fall_gravity_multiplier)
-	
 	
 	# Handle horizontal movement with air control
 	var input_dir = character.get_input_direction()
@@ -47,14 +42,10 @@ func state_physics_process(delta: float) -> void:
 	_check_transitions()
 
 func _check_transitions() -> void:
-	# check if the player release the down key 
+	# Check if we landed
 	if not character.is_down_pressed():
 		transition_to("Fall")
-
-	if character.is_crouch_pressed() and state_machine.can_CrouchDown():
-		transition_to("CrouchDown")
-
-	# Check if we landed
+		
 	if character.is_on_floor():
 		character.reset_jumps()
 		
@@ -67,7 +58,7 @@ func _check_transitions() -> void:
 	
 	# Check for coyote time jump
 	if character.is_jump_pressed() or state_machine.is_jump_buffered():
-		if is_on_floor_buffered():
+		if state_machine.is_on_floor_buffered():
 			if state_machine.is_jump_buffered():
 				state_machine.consume_jump_buffer()
 			transition_to("Jump")
@@ -80,6 +71,6 @@ func _check_transitions() -> void:
 
 ## Handles buffered jump from state machine
 func handle_buffered_jump() -> void:
-	if state_machine.is_on_floor_buffered() or character.can_jump():
+	if state_machine.coyote_timer < state_machine.COYOTE_TIME or character.can_jump():
 		state_machine.consume_jump_buffer()
 		transition_to("Jump")

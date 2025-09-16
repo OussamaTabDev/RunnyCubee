@@ -77,10 +77,6 @@ func _check_transitions() -> void:
 			# Sliding jump: small jump with forward momentum
 			transition_to("SlideJump")
 			return
-		elif abs(character.get_input_direction()) > 0.1:
-			# Moving crouch jump: higher jump with forward momentum
-			transition_to("CrouchJump")
-			return
 		else:
 			# Idle crouch jump: small vertical jump
 			transition_to("CrouchIdleJump")

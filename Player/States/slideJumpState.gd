@@ -82,6 +82,11 @@ func _handle_variable_jump() -> void:
 			can_variable_jump = false
 
 func _check_transitions() -> void:
+	# Check for air dodge (down input while in slide jump)
+	if character.is_crouch_pressed() and character.velocity.y > -50:  # Earlier dodge for slide jump
+		transition_to("AirDodge")
+		return
+	
 	# Check if we've started falling
 	if character.velocity.y > 0:
 		transition_to("Fall")

@@ -369,7 +369,6 @@ acceleration = 2500.0
 friction = 2500.0
 jump_velocity = -700.0
 max_fall_speed = 1500.0
-crash_dist = 220.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -393,10 +392,10 @@ texture = ExtResource("3_apopc")
 offset = Vector2(0, -70)
 
 [node name="Color" type="ColorRect" parent="Sprite2D"]
-offset_left = -76.4319
-offset_top = -155.063
-offset_right = 85.5681
-offset_bottom = 9.93666
+offset_left = -77.0
+offset_top = -155.0
+offset_right = 85.0
+offset_bottom = 10.0
 color = Color(0.671385, 0.0728322, 0.877376, 1)
 
 [node name="shading" type="ColorRect" parent="Sprite2D"]
@@ -470,10 +469,13 @@ crouch_idle_air_control = 0.4
 [node name="AirDodge" type="Node" parent="StateMachine"]
 script = ExtResource("15_pisgm")
 dodge_velocity = 1500.0
+high_jump_velocity = -1600.0
+jump_buffer_duration = 0.4
+coyote_time_duration = 0.4
 
 [node name="GroundPound" type="Node" parent="StateMachine"]
 script = ExtResource("16_pisgm")
-bounce_velocity = -200.0
+bounce_velocity = -350.0
 
 [node name="State" type="Node" parent="."]
 script = ExtResource("11_apopc")

@@ -23,7 +23,10 @@ var coyote_timer: float = 0.0
 var jump_buffer_timer: float = 0.0
 ## Whether jump was buffered
 var jump_buffered: bool = false
-
+## Whether ground pound was buffered
+var ground_pound_jump_buffered: bool = false
+## Ground pound buffer timer - allows jump input to register before landing
+var ground_pound_buffer_timer: float = 0.0
 ## Coyote time duration in seconds
 const COYOTE_TIME: float = 0.15
 ## Jump buffer duration in seconds
@@ -166,12 +169,14 @@ func _handle_jump_buffer() -> void:
 		if current_state and current_state.has_method("handle_buffered_jump"):
 			current_state.handle_buffered_jump()
 
-func can_CrouchDown():
+func is_on_floor_buffered():
+	return coyote_timer < COYOTE_TIME
+
+func can_CrashDown():
 	if character.get_ground_distance() > character.crash_dist and character.can_crashDown:
 		return true
 	return false
-func is_on_floor_buffered():
-	return coyote_timer < COYOTE_TIME
+	
 ## Debug function to print current state info
 func debug_print_state_info() -> void:
 	print("=== State Machine Debug ===")
@@ -181,3 +186,5 @@ func debug_print_state_info() -> void:
 	print("Coyote Timer: ", coyote_timer)
 	print("Jump Buffer Timer: ", jump_buffer_timer)
 	print("Jump Buffered: ", jump_buffered)
+	print("Ground Pound Buffer Timer: ", ground_pound_buffer_timer)
+	print("Ground Pound Jump Buffered: ", ground_pound_jump_buffered)

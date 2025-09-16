@@ -10,7 +10,6 @@ class_name JumpState
 ## Time window for variable jump height
 @export var variable_jump_time: float = 0.2
 
-@export var crouchjump: float = -600.0
 var jump_timer: float = 0.0
 var can_variable_jump: bool = true
 
@@ -23,10 +22,7 @@ func on_enter() -> void:
 	print("Entering Jump State")
 	
 	# Execute the jump
-	if get_previous_state() == "CrashDown":
-		character.jump(crouchjump)
-	else:
-		character.jump()
+	character.jump()
 	
 	# Reset jump timer for variable height
 	jump_timer = 0.0
@@ -64,16 +60,17 @@ func _handle_variable_jump() -> void:
 	# Allow jump cutting for variable height
 	if can_variable_jump and jump_timer < variable_jump_time:
 		if character.is_jump_released() and character.velocity.y < 0:
-			
-
 			character.cut_jump()
 			can_variable_jump = false
 
 func _check_transitions() -> void:
+	# Check for air dodge (down input while in air)
+	# if character.is_crouch_pressed() and character.velocity.y > -100:  # Don't dodge at peak of jump
+	if character.is_crouch_pressed() and state_machine.can_CrashDown() :  # Don't dodge at peak of jump
+		transition_to("AirDodge")
+		return
+	
 	# Check if we've started falling
-	if character.is_crouch_pressed():
-		transition_to("CrouchDown")
-		
 	if character.velocity.y > 0:
 		transition_to("Fall")
 		return

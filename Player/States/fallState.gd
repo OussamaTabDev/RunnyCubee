@@ -8,8 +8,9 @@ class_name FallState
 ## Air control multiplier while falling
 @export var fall_air_control: float = 0.9
 ## Gravity multiplier for faster falling
-@export var fall_gravity_multiplier: float = 1.5
+@export var fall_gravity_multiplier: float = 1.2
 
+@export var fall_max_speed_multiplier: float = 0.8
 func _ready() -> void:
 	state_name = "Fall"
 	can_move = true
@@ -32,7 +33,7 @@ func state_physics_process(delta: float) -> void:
 		var air_friction = character.friction * fall_air_control
 		
 		if input_dir != 0:
-			character.velocity.x = move_toward(character.velocity.x, input_dir * character.move_speed, air_acceleration * delta)
+			character.velocity.x = move_toward(character.velocity.x, input_dir * character.move_speed * fall_max_speed_multiplier, air_acceleration * delta)
 		else:
 			# Less friction in air to maintain momentum
 			character.velocity.x = move_toward(character.velocity.x, character.velocity.x * 0.98, air_friction * delta)
@@ -41,12 +42,8 @@ func state_physics_process(delta: float) -> void:
 	_check_transitions()
 
 func _check_transitions() -> void:
-	#checking the fast fall 
-	if character.is_down_pressed():
+	if  character.is_down_pressed():
 		transition_to("FastFall")
-
-	if character.is_crouch_pressed() and state_machine.can_CrouchDown():
-		transition_to("CrouchDown")
 	# Check if we landed
 	if character.is_on_floor():
 		character.reset_jumps()
@@ -58,13 +55,7 @@ func _check_transitions() -> void:
 			transition_to("Idle")
 		return
 	
-	# Check for coyote time jump
-	if character.is_jump_pressed() or state_machine.is_jump_buffered():
-		if is_on_floor_buffered():
-			if state_machine.is_jump_buffered():
-				state_machine.consume_jump_buffer()
-			transition_to("Jump")
-			return
+	
 	
 	# Check for air jump/double jump
 	if character.is_jump_pressed() and character.can_jump():
@@ -73,6 +64,6 @@ func _check_transitions() -> void:
 
 ## Handles buffered jump from state machine
 func handle_buffered_jump() -> void:
-	if state_machine.is_on_floor_buffered() or character.can_jump():
+	if state_machine.coyote_timer < state_machine.COYOTE_TIME or character.can_jump():
 		state_machine.consume_jump_buffer()
 		transition_to("Jump")
