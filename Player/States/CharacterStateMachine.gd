@@ -116,6 +116,9 @@ func has_state(state_name: String) -> bool:
 func get_current_state_name() -> String:
 	return current_state.state_name if current_state else ""
 
+func get_previous_state_name() -> String:
+	return previous_state.state_name if previous_state else ""
+
 ## Adds a new state dynamically (useful for runtime state addition)
 ## @param state_name: Name for the new state
 ## @param state_scene: Packed scene containing the state
@@ -181,7 +184,7 @@ func can_CrashDown():
 func debug_print_state_info() -> void:
 	print("=== State Machine Debug ===")
 	print("Current State: ", get_current_state_name())
-	print("Previous State: ", previous_state.state_name if previous_state else "None")
+	print("Previous State: ",get_previous_state_name())
 	print("Available States: ", states.keys())
 	print("Coyote Timer: ", coyote_timer)
 	print("Jump Buffer Timer: ", jump_buffer_timer)

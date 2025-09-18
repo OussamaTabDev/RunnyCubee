@@ -66,10 +66,22 @@ func _handle_variable_jump() -> void:
 func _check_transitions() -> void:
 	# Check for air dodge (down input while in air)
 	# if character.is_crouch_pressed() and character.velocity.y > -100:  # Don't dodge at peak of jump
-	if character.is_crouch_pressed() and state_machine.can_CrashDown() :  # Don't dodge at peak of jump
+	if (character.is_spin_pressed() and character.is_down_pressed() )  and state_machine.can_CrashDown():  # Don't dodge at peak of jump
 		transition_to("AirDodge")
 		return
 	
+	# Check for wall slide (if touching wall and starting to fall)
+	if character.can_wall_slide() and character.velocity.y > 0:
+		transition_to("WallSlide")
+		return
+	
+	if character.is_on_edge:
+		transition_to("EdgeGrap")
+		return
+
+
+	
+		
 	# Check if we've started falling
 	if character.velocity.y > 0:
 		transition_to("Fall")
@@ -84,6 +96,11 @@ func _check_transitions() -> void:
 			transition_to("Idle")
 		return
 	
+	# Check for wall jump (if touching wall while jumping)
+	if character.is_jump_pressed() and character.can_wall_jump():
+		transition_to("WallJump")
+		return
+
 	# Check for double jump or multi-jump
 	if character.is_jump_pressed() and character.can_jump():
 		# Stay in jump state but execute another jump

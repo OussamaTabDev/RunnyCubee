@@ -372,7 +372,7 @@ node_connections = [&"Add2", 0, &"animreadyrun", &"Add2", 1, &"anim run", &"Blen
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hshwv"]
 size = Vector2(55, 5)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("wall_collider", "wall_shape_colliders", "debug_label_character", "debug_label_stateMachine")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("wall_collider", "debug_label_character", "debug_label_stateMachine")]
 script = ExtResource("1_fhl08")
 move_speed = 900.0
 acceleration = 2500.0
@@ -381,7 +381,6 @@ jump_velocity = -700.0
 max_fall_speed = 1500.0
 crash_dist = 220.0
 wall_collider = [NodePath("Raycasts/LeftWallCollider"), NodePath("Raycasts/RightWallCollider"), NodePath("Raycasts/RaycastsFlip/DownEdge"), NodePath("Raycasts/RaycastsFlip/UpEdge"), NodePath("Raycasts/FloorCheck")]
-wall_shape_colliders = [NodePath("Raycasts/RaycastsFlip/ShapeCast2D")]
 enable_debug = true
 debug_label_character = NodePath("Control/LabelCharacter")
 debug_label_stateMachine = NodePath("Control/LabelstateMchine")
@@ -538,7 +537,6 @@ hit_from_inside = true
 target_position = Vector2(0, 129)
 
 [node name="RaycastsFlip" type="Node2D" parent="Raycasts"]
-visible = false
 
 [node name="DownEdge" type="RayCast2D" parent="Raycasts/RaycastsFlip"]
 position = Vector2(32, -65)
@@ -556,9 +554,9 @@ position = Vector2(23, -79)
 shape = SubResource("RectangleShape2D_hshwv")
 target_position = Vector2(0, 0)
 max_results = 1
-collide_with_areas = true
 
 [node name="Control" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = -903.0
@@ -571,10 +569,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 38.0
-offset_top = 42.0
-offset_right = 38.0
-offset_bottom = 42.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 35
@@ -585,10 +579,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -32.0
-offset_top = 41.0
-offset_right = -32.0
-offset_bottom = 41.0
+offset_left = 74.0
+offset_top = -20.0
+offset_right = 74.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 35

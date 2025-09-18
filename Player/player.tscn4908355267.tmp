@@ -1,10 +1,9 @@
-[gd_scene load_steps=43 format=3 uid="uid://vaaqqb32s0a5"]
+[gd_scene load_steps=38 format=3 uid="uid://vaaqqb32s0a5"]
 
 [ext_resource type="Script" uid="uid://crbsww811jfrh" path="res://Player/player.gd" id="1_fhl08"]
 [ext_resource type="Script" uid="uid://ce3ujg3jc5hq5" path="res://Player/States/CharacterStateMachine.gd" id="2_4ntmi"]
 [ext_resource type="Shader" uid="uid://daxbgjopngm18" path="res://Assets/shaders/blur.gdshader" id="2_btcbx"]
 [ext_resource type="Texture2D" uid="uid://b3otif6s871k5" path="res://Player/assets/PLAYER.png" id="3_apopc"]
-[ext_resource type="Script" uid="uid://3nynuh72kg81" path="res://Player/scripts/sprite.gd" id="4_7emwf"]
 [ext_resource type="Shader" uid="uid://bmc52rt3n701p" path="res://Assets/shaders/run_effect.gdshader" id="4_gwnis"]
 [ext_resource type="Script" uid="uid://tnjinlg3uyot" path="res://Player/States/idleState.gd" id="5_k53q1"]
 [ext_resource type="Script" uid="uid://bgoennac5rkbj" path="res://Player/States/RunState.gd" id="7_vtle1"]
@@ -20,11 +19,6 @@
 [ext_resource type="Script" uid="uid://cvxc1443ya5y6" path="res://Player/States/groundPoundState.gd" id="16_pisgm"]
 [ext_resource type="Script" uid="uid://cl2fuj0tpgnap" path="res://Player/States/wallSlideState.gd" id="17_b1ygp"]
 [ext_resource type="Script" uid="uid://dutt637xj0skl" path="res://Player/States/wallJumpState.gd" id="18_o28un"]
-[ext_resource type="Script" uid="uid://bxovuqg1lwkh2" path="res://Player/States/spinningState.gd" id="19_n471f"]
-[ext_resource type="Script" uid="uid://lpf11pdgyxpf" path="res://Player/States/edgeGrapState.gd" id="21_hshwv"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_n471f"]
-size = Vector2(52, 0)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4ntmi"]
 radius = 50.0
@@ -353,7 +347,7 @@ animation = &"run"
 animation = &"ready_run"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_k53q1"]
-graph_offset = Vector2(-261.751, -69.2487)
+graph_offset = Vector2(34.7461, 76.9025)
 nodes/Add2/node = SubResource("AnimationNodeAdd2_gwnis")
 nodes/Add2/position = Vector2(1160, 860)
 nodes/Blend2/node = SubResource("AnimationNodeBlend2_k53q1")
@@ -369,10 +363,8 @@ nodes/animreadyrun/position = Vector2(140, 700)
 nodes/output/position = Vector2(2040, 520)
 node_connections = [&"Add2", 0, &"animreadyrun", &"Add2", 1, &"anim run", &"Blend2", 0, &"anim idle", &"Blend2", 1, &"Add2", &"output", 0, &"Blend2"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hshwv"]
-size = Vector2(55, 5)
-
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("wall_collider", "wall_shape_colliders", "debug_label_character", "debug_label_stateMachine")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("debug_label_character", "debug_label_stateMachine")]
+position = Vector2(-1, 0)
 script = ExtResource("1_fhl08")
 move_speed = 900.0
 acceleration = 2500.0
@@ -380,18 +372,11 @@ friction = 2500.0
 jump_velocity = -700.0
 max_fall_speed = 1500.0
 crash_dist = 220.0
-wall_collider = [NodePath("Raycasts/LeftWallCollider"), NodePath("Raycasts/RightWallCollider"), NodePath("Raycasts/RaycastsFlip/DownEdge"), NodePath("Raycasts/RaycastsFlip/UpEdge"), NodePath("Raycasts/FloorCheck")]
-wall_shape_colliders = [NodePath("Raycasts/RaycastsFlip/ShapeCast2D")]
 enable_debug = true
 debug_label_character = NodePath("Control/LabelCharacter")
 debug_label_stateMachine = NodePath("Control/LabelstateMchine")
-metadata/_edit_horizontal_guides_ = [-83.0]
 
-[node name="EdgeCollision" type="CollisionShape2D" parent="."]
-position = Vector2(26, -75)
-shape = SubResource("RectangleShape2D_n471f")
-
-[node name="BodyCollision" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 shape = SubResource("CapsuleShape2D_4ntmi")
 
@@ -406,16 +391,13 @@ offset_top = -66.0
 offset_right = 36.0
 offset_bottom = 70.0
 
-[node name="Sprite2D" type="Sprite2D" parent="." node_paths=PackedStringArray("flipwith")]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 clip_children = 2
 position = Vector2(0, 70)
 texture = ExtResource("3_apopc")
 offset = Vector2(0, -70)
-script = ExtResource("4_7emwf")
-flipwith = [NodePath("../Raycasts/RaycastsFlip"), NodePath("../EdgeCollision")]
 
 [node name="Color" type="ColorRect" parent="Sprite2D"]
-visible = false
 offset_left = -76.4319
 offset_top = -155.063
 offset_right = 85.5681
@@ -431,16 +413,14 @@ offset_right = 235.0
 offset_bottom = 279.0
 
 [node name="camera" type="Camera2D" parent="."]
-zoom = Vector2(0.635, 0.635)
-position_smoothing_enabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_btcbx")
 }
+autoplay = "idle"
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-active = false
 tree_root = SubResource("AnimationNodeBlendTree_k53q1")
 anim_player = NodePath("../AnimationPlayer")
 parameters/Add2/add_amount = 0.0
@@ -452,9 +432,15 @@ character = NodePath("..")
 
 [node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource("5_k53q1")
+can_move = null
+has_gravity = null
+animation_speed = null
 
 [node name="Run" type="Node" parent="StateMachine"]
 script = ExtResource("7_vtle1")
+can_move = null
+has_gravity = null
+animation_speed = null
 
 [node name="Crouch" type="Node" parent="StateMachine"]
 script = ExtResource("8_od3ui")
@@ -493,26 +479,18 @@ crouch_idle_air_control = 0.4
 script = ExtResource("15_pisgm")
 dodge_velocity = 1500.0
 
-[node name="WallSlide" type="Node" parent="StateMachine"]
-script = ExtResource("17_b1ygp")
-enable_falling = false
-
-[node name="WallJump" type="Node" parent="StateMachine"]
-script = ExtResource("18_o28un")
-wall_jump_velocity = -650.0
-wall_jump_horizontal_velocity = 650.0
-wall_jump_air_control = 0.1
-
-[node name="Spinning" type="Node" parent="StateMachine"]
-script = ExtResource("19_n471f")
-spin_duration = 1.0
-
-[node name="EdgeGrap" type="Node" parent="StateMachine"]
-script = ExtResource("21_hshwv")
-
 [node name="GroundPound" type="Node" parent="StateMachine"]
 script = ExtResource("16_pisgm")
 bounce_velocity = -200.0
+
+[node name="WallSlide" type="Node" parent="StateMachine"]
+script = ExtResource("17_b1ygp")
+
+[node name="WallJump" type="Node" parent="StateMachine"]
+script = ExtResource("18_o28un")
+wall_jump_velocity = -750.0
+wall_jump_horizontal_velocity = 750.0
+wall_jump_air_control = 0.1
 
 [node name="State" type="Node" parent="."]
 script = ExtResource("11_apopc")
@@ -522,59 +500,23 @@ metadata/_custom_type_script = "uid://vc7nnjdv5b30"
 
 [node name="Raycasts" type="Node2D" parent="."]
 
-[node name="RightWallCollider" type="RayCast2D" parent="Raycasts"]
-position = Vector2(67, -38)
-scale = Vector2(5.84, 0.989899)
-target_position = Vector2(0, 105)
-hit_from_inside = true
-
-[node name="LeftWallCollider" type="RayCast2D" parent="Raycasts"]
-position = Vector2(-66, -38)
-scale = Vector2(5.84, 0.989899)
-target_position = Vector2(0, 105)
-hit_from_inside = true
-
-[node name="FloorCheck" type="RayCast2D" parent="Raycasts"]
-target_position = Vector2(0, 129)
-
-[node name="RaycastsFlip" type="Node2D" parent="Raycasts"]
+[node name="GroundCounter" type="RayCast2D" parent="Raycasts"]
 visible = false
-
-[node name="DownEdge" type="RayCast2D" parent="Raycasts/RaycastsFlip"]
-position = Vector2(32, -65)
-scale = Vector2(5.84, 3.5499)
-target_position = Vector2(8.73288, 1.90735e-06)
-
-[node name="UpEdge" type="RayCast2D" parent="Raycasts/RaycastsFlip"]
-position = Vector2(31, -83)
-scale = Vector2(5.84, 4.0699)
-target_position = Vector2(10.274, 0)
-hit_from_inside = true
-
-[node name="ShapeCast2D" type="ShapeCast2D" parent="Raycasts/RaycastsFlip"]
-position = Vector2(23, -79)
-shape = SubResource("RectangleShape2D_hshwv")
-target_position = Vector2(0, 0)
-max_results = 1
-collide_with_areas = true
+target_position = Vector2(0, 33)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = -903.0
-offset_top = -508.0
-offset_right = 911.0
-offset_bottom = 513.0
+offset_left = -575.0
+offset_top = -325.0
+offset_right = 579.0
+offset_bottom = 324.0
 
 [node name="LabelCharacter" type="Label" parent="Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 38.0
-offset_top = 42.0
-offset_right = 38.0
-offset_bottom = 42.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 35
@@ -585,10 +527,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -32.0
-offset_top = 41.0
-offset_right = -32.0
-offset_bottom = 41.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 35

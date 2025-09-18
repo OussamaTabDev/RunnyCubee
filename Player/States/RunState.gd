@@ -35,6 +35,11 @@ func _check_transitions() -> void:
 		transition_to("Jump")
 		return
 	
+	# Check for spin input: hold jump while moving on ground
+	if character.is_spin_pressed() and character.is_on_floor() and abs(character.get_input_direction()) > 0.1 and character.try_spin():
+		transition_to("Spinning")
+		return
+		
 	# Check if we stopped moving
 	if abs(character.get_input_direction()) < 0.1:
 		# Also check if we have minimal horizontal velocity

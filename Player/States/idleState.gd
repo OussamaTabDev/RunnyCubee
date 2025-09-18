@@ -10,6 +10,7 @@ func _ready() -> void:
 
 func on_enter() -> void:
 	print("Entering Idle State")
+	
 	# Reset any idle-specific properties
 	character.reset_jumps()
 
@@ -33,8 +34,13 @@ func _check_transitions() -> void:
 		transition_to("Jump")
 		return
 	
+	# Check for spin input: press Spin while moving on ground
+	if character.is_spin_pressed() and character.is_on_floor() and abs(character.get_input_direction()) > 0.1 and character.try_spin():
+		transition_to("Spinning")
+		return
+
 	# Check if we're moving
-	if abs(character.get_input_direction()) > 0.1:
+	if abs(character.get_input_direction()) > 0.1 and abs(character.velocity.x) > 0.1:
 		transition_to("Run")
 		return
 	
