@@ -61,10 +61,12 @@ func state_physics_process(delta: float) -> void:
 func _apply_wall_slide_physics(delta: float) -> void:
 	# Apply reduced gravity for wall slide effect
 	var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-	character.velocity.y += gravity * wall_slide_gravity * delta
-	
-	# Clamp to max wall slide speed
-	character.velocity.y = min(character.velocity.y, max_wall_slide_speed)
+	if character.is_on_edge_half:
+		character.velocity.y += gravity * 3 * delta 
+	else:
+		character.velocity.y += gravity * wall_slide_gravity * delta
+		# Clamp to max wall slide speed
+		character.velocity.y = min(character.velocity.y, max_wall_slide_speed)
 
 func _handle_horizontal_movement(delta: float) -> void:
 	var input_dir = character.get_input_direction()
@@ -93,6 +95,10 @@ func _check_transitions() -> void:
 		transition_to("WallJump")
 		return
 	
+	if character.is_on_edge and not character.is_down_pressed():
+		transition_to("EdgeGrap")
+		
+		return
 	# Check if we're no longer on a wall or if down is pressed
 	if not character._is_on_wall() or character.is_down_pressed():
 		transition_to("Fall")

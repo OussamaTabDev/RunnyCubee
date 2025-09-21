@@ -12,8 +12,18 @@ config_version=5
 
 config/name="RunyCubee"
 run/main_scene="uid://d3ti2lhyi6lle"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/ToSpriteShee/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://Assets/shaders/": "red"
+}
 
 [input]
 

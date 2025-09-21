@@ -13,6 +13,10 @@ func _ready() -> void:
 
 func on_enter() -> void:
 	character.edge_grap_enabled = true
+	# var wall_direction = character.get_wall_direction()
+	#character.velocity = Vector2.ZERO
+	#character.velocity.x = 150 * wall_direction
+
 	print("Entering Jump State")
 
 	
@@ -35,19 +39,19 @@ func _check_transitions() -> void:
 	# Check for air dodge (down input while in air)
 	# if character.is_crouch_pressed() and character.velocity.y > -100:  # Don't dodge at peak of jump
 	
-	
-	# Check for wall slide (if touching wall and starting to fall)
-	if character.can_wall_slide() and character.is_down_pressed() :
-		transition_to("WallSlide")
+	if character.is_down_pressed() or not character.is_on_edge:
+		# Check for wall slide (if touching wall and starting to fall)
+		if character.can_wall_slide():
+			transition_to("WallSlide")
+			return
+		# Check if we've started falling or lost the edge
+		
+		transition_to("Fall")
 		return
 
 
 	
 		
-	# Check if we've started falling or lost the edge
-	if character.velocity.y > 0 or not character.is_on_edge:
-		transition_to("Fall")
-		return
 	
 	
 	

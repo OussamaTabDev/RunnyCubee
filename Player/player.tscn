@@ -1,8 +1,8 @@
-[gd_scene load_steps=43 format=3 uid="uid://vaaqqb32s0a5"]
+[gd_scene load_steps=99 format=3 uid="uid://vaaqqb32s0a5"]
 
 [ext_resource type="Script" uid="uid://crbsww811jfrh" path="res://Player/player.gd" id="1_fhl08"]
 [ext_resource type="Script" uid="uid://ce3ujg3jc5hq5" path="res://Player/States/CharacterStateMachine.gd" id="2_4ntmi"]
-[ext_resource type="Shader" uid="uid://daxbgjopngm18" path="res://Assets/shaders/blur.gdshader" id="2_btcbx"]
+[ext_resource type="SpineSkeletonDataResource" uid="uid://b6xx83qg4mu0b" path="res://Player/assets/player spine/PlayerData.tres" id="3_8mwp6"]
 [ext_resource type="Texture2D" uid="uid://b3otif6s871k5" path="res://Player/assets/PLAYER.png" id="3_apopc"]
 [ext_resource type="Script" uid="uid://3nynuh72kg81" path="res://Player/scripts/sprite.gd" id="4_7emwf"]
 [ext_resource type="Shader" uid="uid://bmc52rt3n701p" path="res://Assets/shaders/run_effect.gdshader" id="4_gwnis"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://h035o7rwnqwx" path="res://Player/States/crouchJumpState.gd" id="11_5htga"]
 [ext_resource type="Script" uid="uid://vc7nnjdv5b30" path="res://Player/States/State.gd" id="11_apopc"]
 [ext_resource type="Script" uid="uid://hfdvh2gnkwls" path="res://Player/States/fastFallState.gd" id="11_dkpta"]
+[ext_resource type="Script" uid="uid://d1ma4t77jcnlc" path="res://Player/scripts/3dIllusionPlayer.gd" id="12_bbimk"]
 [ext_resource type="Script" uid="uid://c1c3wq5k8as1i" path="res://Player/States/slideJumpState.gd" id="12_p5o4e"]
 [ext_resource type="Script" uid="uid://bitlgawtlookb" path="res://Player/States/crouchIdleJumpState.gd" id="13_gu6f8"]
 [ext_resource type="Script" uid="uid://begkirxiyx7ay" path="res://Player/States/airDodgeState.gd" id="15_pisgm"]
@@ -22,13 +23,20 @@
 [ext_resource type="Script" uid="uid://dutt637xj0skl" path="res://Player/States/wallJumpState.gd" id="18_o28un"]
 [ext_resource type="Script" uid="uid://bxovuqg1lwkh2" path="res://Player/States/spinningState.gd" id="19_n471f"]
 [ext_resource type="Script" uid="uid://lpf11pdgyxpf" path="res://Player/States/edgeGrapState.gd" id="21_hshwv"]
+[ext_resource type="Texture2D" uid="uid://dthkh6ecynbet" path="res://Player/assets/player spine/idle.png" id="23_gpjlu"]
+[ext_resource type="Shader" uid="uid://bv4widbtgp21a" path="res://Assets/shaders/character_rotation.gdshader" id="25_bbimk"]
+[ext_resource type="Texture2D" uid="uid://bntoxeyin56nk" path="res://Player/assets/player spine/all directions/3back.png" id="26_bbimk"]
+[ext_resource type="Texture2D" uid="uid://d3wewcxlofnq3" path="res://Player/assets/player spine/idle/spine-Idle 1_36.png" id="26_sm0op"]
+[ext_resource type="Texture2D" uid="uid://ptbyc7it63im" path="res://Player/assets/player spine/all directions/back.png" id="28_m0h3t"]
+[ext_resource type="Texture2D" uid="uid://bnvdre8wgw268" path="res://Player/assets/player spine/all directions/front.png" id="29_i4o1l"]
+[ext_resource type="Texture2D" uid="uid://dwb2vpmkk1bgt" path="res://Player/assets/player spine/all directions/side.png" id="30_j2n6q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n471f"]
 size = Vector2(52, 0)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4ntmi"]
-radius = 50.0
-height = 140.0
+radius = 44.0
+height = 166.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k53q1"]
 resource_local_to_scene = true
@@ -42,17 +50,42 @@ shader_parameter/speed_influence = 5.8
 shader_parameter/global_opacity = 1.0
 shader_parameter/invert_fade = true
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gwnis"]
-shader = ExtResource("2_btcbx")
-shader_parameter/fill_color = Color(0.16, 0.1456, 0.15472, 0.298039)
-shader_parameter/blur_strength = 27.657
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bbimk"]
+resource_local_to_scene = true
+shader = ExtResource("25_bbimk")
+shader_parameter/front_texture = ExtResource("29_i4o1l")
+shader_parameter/quarter_front_texture = ExtResource("26_sm0op")
+shader_parameter/side_texture = ExtResource("30_j2n6q")
+shader_parameter/quarter_back_texture = ExtResource("26_bbimk")
+shader_parameter/back_texture = ExtResource("28_m0h3t")
+shader_parameter/rotation_y = 0.0
+shader_parameter/auto_rotate = false
+shader_parameter/rotation_speed = 1.0
+shader_parameter/ease_duration = 0.10000000149012
+shader_parameter/start_from_quarter_front = false
+shader_parameter/blend_smoothness = 3.31600015425012
+shader_parameter/enable_interpolation = true
+shader_parameter/target_size = Vector2(1, 1)
+shader_parameter/maintain_aspect_ratio = true
+shader_parameter/size_offset = Vector2(0, 0)
+shader_parameter/enable_directional_blur = false
+shader_parameter/blur_direction_degrees = 0.0
+shader_parameter/blur_length = 0.0330000015675
+shader_parameter/blur_samples = 3
+shader_parameter/enable_glow = true
+shader_parameter/glow_color = Color(0.9098039, 0.47058824, 0.30588236, 1)
+shader_parameter/glow_intensity = 2.6000001235
+shader_parameter/glow_threshold = 0.630000029925
+shader_parameter/glow_spread = 0.06400000304
+shader_parameter/glow_samples = 9
+shader_parameter/glow_blend_mode = 1
 
 [sub_resource type="Animation" id="Animation_btcbx"]
 length = 0.001
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale:x")
+tracks/0/path = NodePath("PlayerSprite/Sprite2D:scale:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -63,7 +96,7 @@ tracks/0/keys = {
 tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:scale:y")
+tracks/1/path = NodePath("PlayerSprite/Sprite2D:scale:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -74,55 +107,55 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D/Color:color")
+tracks/2/path = NodePath("PlayerSprite/Sprite2D:skew")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0.671385, 0.0728322, 0.877376, 1)]
+"values": [0.0]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite2D/shading:position")
+tracks/3/path = NodePath("effects/runEffect:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-77, -155)]
+"update": 1,
+"values": [false]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Sprite2D/shading:material:shader_parameter/fill_color")
+tracks/4/path = NodePath("PlayerSprite/Sprite2D:scale")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0.16, 0.1456, 0.15472, 0.298039)]
+"values": [Vector2(1, 1)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Sprite2D:skew")
+tracks/5/path = NodePath("PlayerSprite/Sprite2D:material:shader_parameter/rotation_speed")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [0.0]
+"values": [1.0]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("effects/runEffect:visible")
+tracks/6/path = NodePath("PlayerSprite/Sprite2D:material:shader_parameter/auto_rotate")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -134,14 +167,174 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Sprite2D:scale")
+tracks/7/path = NodePath("PlayerSprite/Sprite2D:visible")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("PlayerSprite/Sprite2D:material:shader_parameter/glow_intensity")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(1, 1)]
+"values": [2.6000001235]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("PlayerSprite/Sprite2D:material:shader_parameter/glow_threshold")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.630000029925]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("PlayerSprite/Sprite2D:material:shader_parameter/glow_spread")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.06400000304]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("PlayerSprite/Sprite2D:material:shader_parameter/glow_samples")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [9]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("PlayerSprite/Sprite2D:material:shader_parameter/glow_blend_mode")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_bbimk"]
+resource_name = "Spin"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite/Sprite2D:material:shader_parameter/rotation_speed")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [4.00000019]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerSprite/Sprite2D:material:shader_parameter/auto_rotate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PlayerSprite/Sprite2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PlayerSprite/Sprite2D:material:shader_parameter/glow_intensity")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.56666666, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [1.30000006175, 2.6000001235, 2.6000001235, 1.30000006175]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PlayerSprite/Sprite2D:material:shader_parameter/glow_threshold")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.21666667, 0.46666667, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.630000029925, 0.9430000447925, 0.9430000447925, 0.630000029925]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("PlayerSprite/Sprite2D:material:shader_parameter/glow_spread")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.4, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.06400000304, 0.0850000040375, 0.0850000040375, 0.06400000304]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("PlayerSprite/Sprite2D:material:shader_parameter/glow_samples")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.36666667, 0.46666667, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [9, 12, 12, 9]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("PlayerSprite/Sprite2D:material:shader_parameter/glow_blend_mode")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.21666667, 0.43333334, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [6, 1, 1, 6]
 }
 
 [sub_resource type="Animation" id="Animation_k53q1"]
@@ -150,7 +343,7 @@ length = 0.6337
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:skew")
+tracks/0/path = NodePath("PlayerSprite/Sprite2D:skew")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -179,7 +372,7 @@ loop_mode = 1
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale:x")
+tracks/0/path = NodePath("PlayerSprite/Sprite2D:scale:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -190,7 +383,7 @@ tracks/0/keys = {
 tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:scale:y")
+tracks/1/path = NodePath("PlayerSprite/Sprite2D:scale:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -201,46 +394,10 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D/Color:color")
+tracks/2/path = NodePath("PlayerSprite/Sprite2D:skew")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.7, 1.5),
-"transitions": PackedFloat32Array(1, 2.63902, 1),
-"update": 0,
-"values": [Color(0.671385, 0.0728322, 0.877376, 1), Color(0.729276, 0.0132483, 0.777316, 1), Color(0.671385, 0.0728322, 0.877376, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite2D/shading:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.7, 1.5),
-"transitions": PackedFloat32Array(1, 2.73208, 1),
-"update": 0,
-"values": [Vector2(-132.017, -100), Vector2(-140.197, -46.3144), Vector2(-132.017, -100)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Sprite2D/shading:material:shader_parameter/fill_color")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.7, 1.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(0.16, 0.1456, 0.15472, 0.298039), Color(0.16, 0.1456, 0.15472, 0.560784), Color(0.16, 0.1456, 0.15472, 0.298039)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Sprite2D:skew")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
 "times": PackedFloat32Array(0, 0.2, 1.2, 1.49309),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
@@ -253,7 +410,7 @@ length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/path = NodePath("PlayerSprite/Sprite2D:scale")
 tracks/0/interp = 2
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -269,7 +426,7 @@ length = 0.3651
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:skew")
+tracks/0/path = NodePath("PlayerSprite/Sprite2D:skew")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -298,7 +455,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:skew")
+tracks/0/path = NodePath("PlayerSprite/Sprite2D:skew")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -314,7 +471,7 @@ length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/path = NodePath("PlayerSprite/Sprite2D:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -327,6 +484,7 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_btcbx"]
 _data = {
 &"RESET": SubResource("Animation_btcbx"),
+&"Spin": SubResource("Animation_bbimk"),
 &"end_run": SubResource("Animation_k53q1"),
 &"idle": SubResource("Animation_4ntmi"),
 &"in_scrouth": SubResource("Animation_od3ui"),
@@ -354,6 +512,7 @@ animation = &"ready_run"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_k53q1"]
 graph_offset = Vector2(-261.751, -69.2487)
+nodes/output/position = Vector2(2040, 520)
 nodes/Add2/node = SubResource("AnimationNodeAdd2_gwnis")
 nodes/Add2/position = Vector2(1160, 860)
 nodes/Blend2/node = SubResource("AnimationNodeBlend2_k53q1")
@@ -366,13 +525,370 @@ nodes/Blend2/position = Vector2(1620, 380)
 "nodes/anim run/position" = Vector2(420, 800)
 nodes/animreadyrun/node = SubResource("AnimationNodeAnimation_od3ui")
 nodes/animreadyrun/position = Vector2(140, 700)
-nodes/output/position = Vector2(2040, 520)
-node_connections = [&"Add2", 0, &"animreadyrun", &"Add2", 1, &"anim run", &"Blend2", 0, &"anim idle", &"Blend2", 1, &"Add2", &"output", 0, &"Blend2"]
+node_connections = [&"output", 0, &"Blend2", &"Add2", 0, &"animreadyrun", &"Add2", 1, &"anim run", &"Blend2", 0, &"anim idle", &"Blend2", 1, &"Add2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hshwv"]
 size = Vector2(55, 5)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qemgg"]
+shader = ExtResource("25_bbimk")
+shader_parameter/front_texture = ExtResource("29_i4o1l")
+shader_parameter/quarter_front_texture = ExtResource("26_sm0op")
+shader_parameter/side_texture = ExtResource("30_j2n6q")
+shader_parameter/quarter_back_texture = ExtResource("26_bbimk")
+shader_parameter/back_texture = ExtResource("28_m0h3t")
+shader_parameter/rotation_y = 0.0
+shader_parameter/auto_rotate = false
+shader_parameter/rotation_speed = 1.0
+shader_parameter/ease_duration = 1.0
+shader_parameter/start_from_quarter_front = true
+shader_parameter/blend_smoothness = 5.0
+shader_parameter/enable_interpolation = true
+shader_parameter/target_size = Vector2(10, 10)
+shader_parameter/maintain_aspect_ratio = true
+shader_parameter/size_offset = Vector2(0, 0)
+shader_parameter/enable_directional_blur = true
+shader_parameter/blur_direction_degrees = 0.0
+shader_parameter/blur_length = 1.0
+shader_parameter/blur_samples = 8
+shader_parameter/enable_glow = true
+shader_parameter/glow_color = Color(1, 1, 1, 1)
+shader_parameter/glow_intensity = 0.8
+shader_parameter/glow_threshold = 0.5
+shader_parameter/glow_spread = 0.02
+shader_parameter/glow_samples = 8
+shader_parameter/glow_blend_mode = 0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8mwp6"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(0, 0, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qemgg"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(702, 0, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8viyr"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(1404, 0, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sm0op"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(2106, 0, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_76lrf"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(2808, 0, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_efx54"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(3510, 0, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_755ss"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(4212, 0, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bbimk"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(4914, 0, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m0h3t"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(5616, 0, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i4o1l"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(6318, 0, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j2n6q"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(0, 894, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6x0f"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(702, 894, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jp1hh"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(1404, 894, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qs4pp"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(2106, 894, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iyprq"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(2808, 894, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f4lon"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(3510, 894, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ynux"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(4212, 894, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d30e8"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(4914, 894, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6pogt"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(5616, 894, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ie76m"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(6318, 894, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dy65m"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(0, 1788, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_maysp"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(702, 1788, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1l10g"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(1404, 1788, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6rl0i"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(2106, 1788, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7x5p2"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(2808, 1788, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6eb1q"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(3510, 1788, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wvbyc"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(4212, 1788, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gvnt1"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(4914, 1788, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1kmt7"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(5616, 1788, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4i3b"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(6318, 1788, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uvbbp"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(0, 2682, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7v2uk"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(702, 2682, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m6nl3"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(1404, 2682, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8hx1r"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(2106, 2682, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qas3k"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(2808, 2682, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ntwt4"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(3510, 2682, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kdg72"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(4212, 2682, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qpoj2"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(4914, 2682, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3e3ym"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(5616, 2682, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gxi5p"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(6318, 2682, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yxu6j"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(0, 3576, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mdkl3"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(702, 3576, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_68syb"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(1404, 3576, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0uyb"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(2106, 3576, 702, 894)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f8nak"]
+atlas = ExtResource("23_gpjlu")
+region = Rect2(2808, 3576, 702, 894)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pqfba"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8mwp6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qemgg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8viyr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sm0op")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_76lrf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_efx54")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_755ss")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bbimk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m0h3t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i4o1l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j2n6q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c6x0f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jp1hh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qs4pp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iyprq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f4lon")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ynux")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d30e8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6pogt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ie76m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dy65m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_maysp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1l10g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6rl0i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7x5p2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6eb1q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wvbyc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gvnt1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1kmt7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c4i3b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uvbbp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7v2uk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m6nl3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8hx1r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qas3k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ntwt4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kdg72")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qpoj2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3e3ym")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gxi5p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yxu6j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mdkl3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_68syb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x0uyb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f8nak")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 44.0
+}]
+
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("wall_collider", "wall_shape_colliders", "debug_label_character", "debug_label_stateMachine")]
+position = Vector2(-1, 0)
 script = ExtResource("1_fhl08")
 move_speed = 900.0
 acceleration = 2500.0
@@ -388,6 +904,7 @@ debug_label_stateMachine = NodePath("Control/LabelstateMchine")
 metadata/_edit_horizontal_guides_ = [-83.0]
 
 [node name="EdgeCollision" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(26, -75)
 shape = SubResource("RectangleShape2D_n471f")
 
@@ -406,31 +923,30 @@ offset_top = -66.0
 offset_right = 36.0
 offset_bottom = 70.0
 
-[node name="Sprite2D" type="Sprite2D" parent="." node_paths=PackedStringArray("flipwith")]
+[node name="PlayerSprite" type="Node2D" parent="." node_paths=PackedStringArray("flipwith", "sprite")]
+position = Vector2(28, 44)
+script = ExtResource("4_7emwf")
+flipwith = [NodePath("../EdgeCollision"), NodePath("../Raycasts/RaycastsFlip")]
+sprite = NodePath("AnimatorSpine")
+
+[node name="AnimatorSpine" type="SpineSprite" parent="PlayerSprite"]
+skeleton_data_res = ExtResource("3_8mwp6")
+preview_skin = "default"
+preview_animation = "Idle 1"
+preview_frame = false
+preview_time = 0.28
+scale = Vector2(0.2, 0.2)
+
+[node name="Sprite2D" type="Sprite2D" parent="PlayerSprite"]
 clip_children = 2
-position = Vector2(0, 70)
+material = SubResource("ShaderMaterial_bbimk")
+position = Vector2(3.5000038, -1.3758314)
 texture = ExtResource("3_apopc")
 offset = Vector2(0, -70)
-script = ExtResource("4_7emwf")
-flipwith = [NodePath("../Raycasts/RaycastsFlip"), NodePath("../EdgeCollision")]
-
-[node name="Color" type="ColorRect" parent="Sprite2D"]
-visible = false
-offset_left = -76.4319
-offset_top = -155.063
-offset_right = 85.5681
-offset_bottom = 9.93666
-color = Color(0.671385, 0.0728322, 0.877376, 1)
-
-[node name="shading" type="ColorRect" parent="Sprite2D"]
-visible = false
-material = SubResource("ShaderMaterial_gwnis")
-offset_left = -77.0
-offset_top = -155.0
-offset_right = 235.0
-offset_bottom = 279.0
+script = ExtResource("12_bbimk")
 
 [node name="camera" type="Camera2D" parent="."]
+visible = false
 zoom = Vector2(0.635, 0.635)
 position_smoothing_enabled = true
 
@@ -521,6 +1037,7 @@ has_gravity = false
 metadata/_custom_type_script = "uid://vc7nnjdv5b30"
 
 [node name="Raycasts" type="Node2D" parent="."]
+visible = false
 
 [node name="RightWallCollider" type="RayCast2D" parent="Raycasts"]
 position = Vector2(67, -38)
@@ -559,6 +1076,7 @@ max_results = 1
 collide_with_areas = true
 
 [node name="Control" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = -903.0
@@ -594,3 +1112,14 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 35
 text = "this is code"
 horizontal_alignment = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_qemgg")
+position = Vector2(-0.9999999, -18.999998)
+scale = Vector2(0.175, 0.175)
+sprite_frames = SubResource("SpriteFrames_pqfba")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.6132221
+offset = Vector2(-5.7142944, 0)

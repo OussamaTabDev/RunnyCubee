@@ -32,18 +32,18 @@ float sample_pulse() {
     // Base rhythmic pulse
     float t = TIME * pulse_frequency;
     float sine_pulse = 0.5 + 0.5 * sin(t);
-    
+
     // Add some organic variation with noise
     float noise_mod = 0.5 + 0.5 * sin(TIME * 0.37);
     noise_mod *= rand(vec2(floor(t * 0.5), 0.0));
-    
+
     return (sine_pulse * 0.7 + noise_mod * 0.3) * pulse_strength;
 }
 
 // ========== MAIN ==========
 void fragment() {
     float pulse = sample_pulse();
-    
+
     vec2 uv = UV - 0.5; // Centered UV
     float aspect = SCREEN_PIXEL_SIZE.x / SCREEN_PIXEL_SIZE.y;
     uv.x *= aspect; // Correct aspect ratio

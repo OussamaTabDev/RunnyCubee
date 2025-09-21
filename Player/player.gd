@@ -59,6 +59,7 @@ var can_crashDown: bool = true
 var is_on_wall_left: bool = false
 var is_on_wall_right: bool = false
 var is_on_edge: bool = false
+var is_on_edge_half: bool = false
 var edge_grap_enabled: bool = false:
 	get:
 		return not EdgeCollision.disabled
@@ -225,7 +226,7 @@ func _update_wall_detection() -> void:
 	is_on_wall_right = wall_collider[1].is_colliding() 
 	is_in_floor = wall_collider[4].is_colliding()
 	is_on_edge = wall_collider[2].is_colliding() and not wall_collider[3].is_colliding() and not is_in_floor
-	
+	is_on_edge_half = not wall_collider[2].is_colliding() and not wall_collider[3].is_colliding() and not is_in_floor
 	# wall_normal = Vector2.ZERO
 	
 	# # Check left wall

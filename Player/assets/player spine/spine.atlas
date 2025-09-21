@@ -1,0 +1,153 @@
+
+spine.png
+size: 2016,618
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Bag
+  rotate: false
+  xy: 1879, 44
+  size: 89, 175
+  orig: 93, 175
+  offset: 0, 0
+  index: -1
+Bag up right
+  rotate: true
+  xy: 843, 4
+  size: 50, 129
+  orig: 50, 129
+  offset: 0, 0
+  index: -1
+Cloak Up
+  rotate: true
+  xy: 739, 31
+  size: 191, 102
+  orig: 191, 102
+  offset: 0, 0
+  index: -1
+Cloak part 1
+  rotate: true
+  xy: 2, 210
+  size: 406, 401
+  orig: 406, 401
+  offset: 0, 0
+  index: -1
+Clock back left
+  rotate: false
+  xy: 843, 56
+  size: 301, 180
+  orig: 301, 180
+  offset: 0, 0
+  index: -1
+HAir
+  rotate: true
+  xy: 867, 251
+  size: 365, 343
+  orig: 365, 343
+  offset: 0, 0
+  index: -1
+HAir in hood
+  rotate: true
+  xy: 1464, 281
+  size: 335, 299
+  orig: 335, 299
+  offset: 0, 0
+  index: -1
+bag up left
+  rotate: true
+  xy: 1385, 2
+  size: 67, 162
+  orig: 67, 162
+  offset: 0, 0
+  index: -1
+clock back
+  rotate: true
+  xy: 1212, 253
+  size: 363, 250
+  orig: 363, 250
+  offset: 0, 0
+  index: -1
+clock part 2
+  rotate: true
+  xy: 2, 2
+  size: 206, 385
+  orig: 206, 385
+  offset: 0, 0
+  index: -1
+hand left
+  rotate: true
+  xy: 1385, 71
+  size: 180, 142
+  orig: 180, 142
+  offset: 0, 0
+  index: -1
+hand right
+  rotate: true
+  xy: 1879, 221
+  size: 166, 124
+  orig: 166, 124
+  offset: 0, 0
+  index: -1
+head
+  rotate: true
+  xy: 1549, 3
+  size: 276, 328
+  orig: 276, 328
+  offset: 0, 0
+  index: -1
+hood
+  rotate: true
+  xy: 405, 224
+  size: 392, 335
+  orig: 392, 335
+  offset: 0, 0
+  index: -1
+legs
+  rotate: true
+  xy: 389, 10
+  size: 198, 235
+  orig: 198, 239
+  offset: 0, 4
+  index: -1
+legs idle left
+  rotate: true
+  xy: 1879, 389
+  size: 118, 135
+  orig: 118, 135
+  offset: 0, 0
+  index: -1
+legs right
+  rotate: false
+  xy: 1870, 509
+  size: 144, 107
+  orig: 144, 107
+  offset: 0, 0
+  index: -1
+scarf part 1
+  rotate: true
+  xy: 742, 238
+  size: 378, 123
+  orig: 378, 123
+  offset: 0, 0
+  index: -1
+scarf part 2
+  rotate: true
+  xy: 1765, 281
+  size: 335, 103
+  orig: 335, 103
+  offset: 0, 0
+  index: -1
+scarf static
+  rotate: true
+  xy: 626, 12
+  size: 210, 111
+  orig: 210, 111
+  offset: 0, 0
+  index: -1
+t-short
+  rotate: true
+  xy: 1146, 6
+  size: 243, 237
+  orig: 243, 237
+  offset: 0, 0
+  index: -1

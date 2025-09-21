@@ -55,7 +55,7 @@ func state_physics_process(delta: float) -> void:
 	# Check if movement lock period is over
 	if movement_locked and wall_jump_timer >= wall_jump_lock_time:
 		movement_locked = false
-		character.edge_grap_enabled = true
+
 		print("Wall jump movement unlocked")
 	
 	# Apply gravity
@@ -101,7 +101,7 @@ func _check_transitions() -> void:
 		transition_to("EdgeGrap")
 		return
 		
-	character.edge_grap_enabled = false
+	
 	if character.is_crouch_pressed() and character.velocity.y > -100:
 		transition_to("AirDodge")
 		return
